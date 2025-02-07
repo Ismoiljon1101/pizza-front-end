@@ -1,19 +1,19 @@
-import { createSelector } from "@reduxjs/toolkit";
-import { AppRootState, ProductPageState } from "../../../lib/types/screen";
+import { createSelector } from "reselect";
+import { AppRootState } from "../../../lib/types/screen";
 
-const selectProductPage = (state:AppRootState) => state.productPage
 
-export const retrieveRestaurant = createSelector(
-    selectProductPage,
-    (productPage: ProductPageState) => productPage.restaurant
-)
+const selectProductsPage = (state: AppRootState) => state.productsPage;
 
-export const retrieveChosenProduct = createSelector(
-    selectProductPage,
-    (productPage: ProductPageState) => productPage.chosenProduct
-)
+export const retrieveRestaurant = createSelector(selectProductsPage, 
+    (ProductsPage) => ProductsPage.restaurant
+);
 
-export const retrieveProducts = createSelector(
-    selectProductPage,
-    (productPage: ProductPageState) => productPage.products
-)
+export const retrieveChosenProduct = createSelector(selectProductsPage, 
+    (ProductsPage) => ProductsPage.chosenProduct
+);
+
+export const retrieveProducts = createSelector(selectProductsPage, 
+    (ProductsPage) => ProductsPage.products
+);
+
+

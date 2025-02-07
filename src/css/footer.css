@@ -5,7 +5,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 34px;
-  color: #FBC02D;
+  color: #e3c08d;
 }
 
 .sns-context {
@@ -23,7 +23,7 @@
   font-weight: 600;
   font-size: 24px;
   line-height: 34px;
-  color: darkgreen;
+  color: #c5c8c9;
 }
 
 .foot-category-link {
@@ -41,7 +41,7 @@
 }
 
 .foot-category-link a {
-  color: #FBC02D;
+  color: #e3c08d;
   text-decoration: none;
   cursor: pointer;
 }
@@ -57,7 +57,7 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 34px;
-  color: #FBC02D;
+  color: #c5c8c9;
 }
 
 .find-us div {
@@ -67,7 +67,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 34px;
-  color: #FBC02D;
+  color: #e3c08d;
 }
 
 .copyright-txt {
@@ -77,7 +77,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 34px;
-  color: #FBC02D;
+  color: #e3c08d;
 }
 
 .foot-category-title:after {
