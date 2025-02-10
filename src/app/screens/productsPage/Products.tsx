@@ -96,7 +96,7 @@ const history  = useHistory();
         <Container>
           <Stack flexDirection={"column"} alignItems={"center"}>
             <Stack className={"avatar-big-box"}>
-              <Box className={"category-title"}>Burak Restaurant</Box>
+              <Box className={"category-title"}>Pizza House</Box>
               <Stack className="avatar-search-box" >
               <TextField
                 variant="outlined"
@@ -184,7 +184,7 @@ const history  = useHistory();
                   </Button>
                   <Button variant={"contained"} color={productSearch.productCollection === ProductCollection.PIZZA ? "primary" : "secondary"}
                   onClick={() => searchCollectionHandler(ProductCollection.PIZZA)}>
-                    DISH
+                    PIZZA
                   </Button>
               </Stack>
   
@@ -272,13 +272,13 @@ const history  = useHistory();
         </Container>
         <div className={"brands-logo"}>
           <Container className={"family-brands"}>
-            <Box className={"category-title"}>Our Family Brands</Box>
+            <Box className={"category-title"}>Our Partners</Box>
             <Stack className={"brand-list"}>
               <Box>
                 <Card className="card-media">
                   <CardMedia
                     component="img"
-                    image="../../../img/gurme.webp"
+                    image="../../../img/gurme.svg"
                     alt="green iguana"
                   />
                 </Card>
@@ -287,7 +287,7 @@ const history  = useHistory();
                 <Card className="card-media">
                   <CardMedia
                     component="img"
-                    image="../../../img/seafood.webp"
+                    image="../../../img/seafood.svg"
                     alt="green iguana"
                   />
                 </Card>
@@ -296,7 +296,7 @@ const history  = useHistory();
                 <Card className="card-media">
                   <CardMedia
                     component="img"
-                    image="../../../img/sweets.webp"
+                    image="../../../img/sweets.svg"
                     alt="green iguana"
                   />
                 </Card>
@@ -305,7 +305,7 @@ const history  = useHistory();
                 <Card className="card-media">
                   <CardMedia
                     component="img"
-                    image="../../../img/doner.webp"
+                    image="../../../img/donar.svg"
                     alt="green iguana"
                   />
                 </Card>
@@ -321,7 +321,7 @@ const history  = useHistory();
               <iframe className="map"
                 title="our address"
                 style={{ marginTop: "60px" }}
-                src="https://maps.google.com/maps?q=Burak%20restaurand%20istanbul&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11647919.37548628!2d-0.6359697893832288!3d44.541154174127534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133ed05d42fd4e31%3A0x37168290eedca735!2sPizza%20House!5e0!3m2!1sen!2skr!4v1739156789835!5m2!1sen!2skr"
                 width={"1260"}
                 height={"500"}
                 referrerPolicy="no-referrer-when-downgrade"

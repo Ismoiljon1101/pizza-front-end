@@ -83,6 +83,8 @@
     font-style: italic;
     line-height: 34px;
     color: #e3c08d;
+    border: 2px solid rgb(43, 42, 42);
+
 }
 
 /* List Category Section */
@@ -122,6 +124,8 @@
 
 /* Product Card */
 .products-page .products .product-card {
+   border: 2px solid #343434;
+  border-radius: 0 50px 0 0;
     position: relative;
 }
 
@@ -299,12 +303,13 @@
   }
   
   .products-page .products .brand-list .card-media {
-    width: 258px;
-    height: 350px;
+    width: 260px;
+    height: 260px;
     background: #0d1518;
     box-shadow: 1px 1px 5px 2px white;
     border-radius: 20px;
     padding: 20px;
+    margin-bottom: 100px;
   }
   
   /* OUR ADDRESS */

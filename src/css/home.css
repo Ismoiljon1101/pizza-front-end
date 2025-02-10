@@ -70,6 +70,7 @@
    display: flex;
    flex-direction: column;
    align-items: center;
+
 } 
 
 .homepage .popular-dishes-frame .popular-section  .category-title{
@@ -116,7 +117,8 @@
     to top,
     rgba(0, 0, 0, 0.8),
     rgba(0, 0, 0, 0) 300px
-   )
+   );
+   border: 1px solid #f8f8ff;
  }
 
  /** NEW PRODUCTS **/
@@ -133,6 +135,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 .homepage .new-products-frame .category-title {
@@ -149,6 +152,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  
 }
 
 .homepage .new-products-frame .main .card {
@@ -196,8 +200,9 @@
 }
 
 .homepage .new-products-frame .product-detail .title {
-  width: 65px;
+  width: 150px;
   font-weight: 500;
+  position: relative; right: 0px;
 }
 
 .homepage .new-products-frame .product-detail .price {
@@ -216,6 +221,8 @@
   display: flex;
   align-items: center;
   font-weight: 500;
+  width: 100%;
+
 }
 
 .homepage .new-products-frame .no-data {

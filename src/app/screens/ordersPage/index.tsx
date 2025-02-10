@@ -123,12 +123,12 @@ export default function OrdersPage() {
             <Box className={"order-info-box"}>
               <Box className={"payment-box"}>
                 <Box>
-                  <input type="text"  placeholder="Card number : 5243 4090 2002 7495"/>
+                  <input type="text"  placeholder="You card number"/>
                   <div  className="card-child-box">
                   <input type="text" placeholder="07/24"/>
-                  <input type="text"  placeholder="CVV:010"/>
+                  <input type="text"  placeholder="Card CVC"/>
                   </div>
-                  <input type="text" placeholder="Oyxon Kambaralieva" />
+                  <input type="text" placeholder="Fill your full name!" />
                 </Box>
                 <Box className={"card-type"}>
                   <img src={"/icons/paypal-card.svg"} alt="" />

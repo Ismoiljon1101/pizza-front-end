@@ -130,9 +130,9 @@ export default function  HomeNavbar(props: NavberProps) {
             </Stack>
             <Stack className="header-frame">
                 <Stack className="detail">
-                    <Box className="head-main-txt"> World's Most Delicious Cousine</Box>
-                    <Box className="wel-txt">The Choice, not just a choice</Box>
-                    <Box className="service-txt">24 hours service</Box>
+                    <Box className="head-main-txt"> World's Most Delicious Pizza</Box>
+                    <Box className="wel-txt">The Ultimate Slice, not just a choice</Box>
+                    <Box className="service-txt">Open 24/7</Box>
                     <Box className="signup">
                         {!authMember ? (<Button variant="contained" className="signup-button"
                         onClick={() => setSignupOpen(true)}>SIGN UP</Button>) : null} 

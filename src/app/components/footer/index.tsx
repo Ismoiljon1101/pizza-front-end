@@ -23,9 +23,9 @@ export default function Footer() {
               <img style={{width:"100px"}} src={"/icons/burak.svg"} alt="icon" />
             </Box>
             <Box className={"foot-desc-txt"}>
-              Focusing on the gourmet Turkish breakfast as well as the youth
-              society, CZN Burak Gurme aims to bring Turkish cuisine back. CZN
-              Burak Gurme creates an illusion with its cuisine.
+              Welcome to pizza paradise! We are proud to serve you the best pizza in town. 
+              our society solely grew up in the heart of this holly place, Pizza house aims to bring the best pizza to your table.
+              we make with love and passion, here to serve you 24/7.
             </Box>
             <Box className="sns-context">
               <img src={"/icons/facebook.svg"}   alt="icon" />
@@ -37,7 +37,7 @@ export default function Footer() {
           <Stack sx={{ ml: "288px" }} flexDirection={"row"}>
             <Stack>
               <Box>
-                <Box className={"foot-category-title"}>Bo'limlar</Box>
+                <Box className={"foot-category-title"}>Sections</Box>
                 <Box className={"foot-category-link"}>
                   <Link to="/">Home</Link>
                   <Link to="/products">Products</Link>

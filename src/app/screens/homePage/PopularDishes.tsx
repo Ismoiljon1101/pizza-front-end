@@ -43,7 +43,7 @@ export default function PopularDishes () {
                                 <img src={imagePath} alt=""/>
                             </CardCover>
                             <CardCover className={"card-cover"} />
-                            <CardContent sx={{ justifyContent: 'flex-end' }}>
+                            <CardContent sx={{ justifyContent: 'flex-end'}}>
                                <Stack 
                                     flexDirection={"row"}
                                     justifyContent={"space-between"}
