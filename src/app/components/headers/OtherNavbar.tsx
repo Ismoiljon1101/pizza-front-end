@@ -80,7 +80,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="hidden rounded-full hover:bg-white/10 md:flex"
+              className="flex rounded-full hover:bg-white/10"
               onClick={toggleTheme}
               aria-label="Toggle color theme"
             >
@@ -94,7 +94,7 @@ export default function OtherNavbar(props: OtherNavbarProps) {
               onDeleteAll={onDeleteAll}
             />
             {!authMember ? (
-              <div className="hidden items-center gap-2 md:flex">
+              <div className="flex items-center gap-2">
                 <Button variant="ghost" className="rounded-full hover:bg-white/10" onClick={() => setSignupOpen(true)}>
                   Sign up
                 </Button>
