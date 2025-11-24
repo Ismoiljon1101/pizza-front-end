@@ -1,83 +1,85 @@
-import React from "react";
-import { Box, Stack } from "@mui/material";
-import TabPanel from "@mui/lab/TabPanel";
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
-import {retrieveFinishedOrders} from "./selector";
+import { retrieveFinishedOrders } from "./selector";
 import { serverApi } from "../../../lib/config";
 import { Order, OrderItem } from "../../../lib/types/order";
 import { Product } from "../../../lib/types/product";
 
-
 const finishedOrdersRetriever = createSelector(
-    retrieveFinishedOrders,
-    (finishedOrders) => ({finishedOrders})
-  );
+  retrieveFinishedOrders,
+  (finishedOrders) => ({ finishedOrders })
+);
 
 export default function FinishedOrders() {
-  const {finishedOrders} = useSelector(finishedOrdersRetriever);
+  const { finishedOrders } = useSelector(finishedOrdersRetriever);
   return (
-    <TabPanel value={"3"}>
-      <Stack>
-      {finishedOrders?.map((order: Order) => {
-          return (
-            <Box key={order._id} className={"order-main-box"}>
-              <Box className={"order-box-scroll"}>
-                {order?.orderItems?.map((item: OrderItem) => {
-                  const  product: Product = order.productData.filter(
-                    (ele: Product) => item.productId === ele._id)
-                    [0];
-                const imagePath = `${serverApi}/${product.productImages[0]}`;
-                  return (
-                    <Box key={item._id} className={"orders-name-price"}>
-                      <img
-                      alt=""
-                        src={imagePath}
-                        className={"order-dish-img"}
-                      />
-                      <p className={"title-dish"}>{product.productName}</p>
-                      <Box className={"price-box"}>
-                        <p>${item.itemPrice}</p>
-                        <img src={"/icons/close.svg"} alt=""/>
-                        <p>{item.itemQuantity}</p>
-                        <img src={"/icons/pause.svg"}alt="" />
-                        <p style={{ marginLeft: "15px" }}>${item.itemQuantity * item.itemPrice}</p>
-                      </Box>
-                    </Box>
-                  );
-                })}
-              </Box>
-
-              <Box className={"total-price-box"}>
-                <Box className={"box-total"}>
-                  <p>Product price</p>
-                  <p>${order.orderTotal - order.orderDelivery}</p>
-                  <img src={"/icons/plus.svg"} style={{ marginLeft: "20px" }}  alt=""/>
-                  <p>Delivery cost</p>
-                  <p>${order.orderDelivery}</p>
+    <div className="space-y-6">
+      {finishedOrders?.map((order: Order) => (
+        <article
+          key={order._id}
+          className="rounded-3xl border bg-card p-6 shadow-sm"
+        >
+          <div className="space-y-4">
+            {order?.orderItems?.map((item: OrderItem) => {
+              const product: Product = order.productData.filter(
+                (ele: Product) => item.productId === ele._id
+              )[0];
+              const imagePath = `${serverApi}/${product.productImages[0]}`;
+              return (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-4 rounded-2xl bg-muted/40 p-4"
+                >
                   <img
-                    src={"/icons/pause.svg"}
-                    alt=""
-                    style={{ marginLeft: "20px" }}
+                    src={imagePath}
+                    alt={product.productName}
+                    className="h-20 w-20 rounded-xl object-cover"
                   />
-                  <p>Total</p>
-                  <p>${order.orderTotal}</p>
-                </Box>
-              </Box>
-            </Box>
-          );
-        })}
+                  <div className="flex flex-1 flex-col gap-1">
+                    <p className="text-lg font-semibold">{product.productName}</p>
+                    <div className="text-sm text-muted-foreground">
+                      ${item.itemPrice} × {item.itemQuantity}
+                    </div>
+                  </div>
+                  <p className="text-lg font-semibold">
+                    ${item.itemQuantity * item.itemPrice}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
 
-        {!finishedOrders || (finishedOrders.length === 0 && (
-          <Box display={"flex"} flexDirection={"row"} justifyContent={"center"}>
+          <div className="mt-6 flex flex-col gap-4 rounded-2xl bg-muted/30 p-4">
+            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-foreground">Product price:</span>
+                <span>${order.orderTotal - order.orderDelivery}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-foreground">Delivery:</span>
+                <span>${order.orderDelivery}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-foreground">Total:</span>
+                <span>${order.orderTotal}</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+
+      {!finishedOrders ||
+        (finishedOrders.length === 0 && (
+          <div className="flex flex-col items-center gap-4 rounded-3xl border border-dashed border-muted-foreground/40 p-10 text-center text-muted-foreground">
             <img
               src={"/icons/noimage-list.svg"}
-              alt=""
-              style={{ width: 300, height: 300 }}
+              alt="empty"
+              className="h-40 w-40"
             />
-          </Box>
+            <p>No finished orders available.</p>
+          </div>
         ))}
-      </Stack>
-    </TabPanel>
+    </div>
   );
 }
+

@@ -1,13 +1,220 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Glassmorphism Variables */
+    --glass-border: 0 0% 100%;
+    --glass-surface: 0 0% 100%;
+
+    /* Light Mode - Bright & Airy (Warm Orange Family) */
+    --background: 30 50% 98%;
+    /* Very light warm tint */
+    --foreground: 20 14% 4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 14% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14% 4%;
+
+    --primary: 25 95% 53%;
+    /* Vibrant Orange */
+    --primary-foreground: 60 9% 98%;
+
+    --secondary: 30 30% 96%;
+    --secondary-foreground: 24 9.8% 10%;
+
+    --muted: 30 20% 96%;
+    --muted-foreground: 25 5% 45%;
+
+    --accent: 30 30% 96%;
+    --accent-foreground: 24 9.8% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9% 98%;
+
+    --border: 20 10% 85%;
+    --input: 20 10% 85%;
+    --ring: 25 95% 53%;
+
+    --radius: 1rem;
+  }
+
+  .dark {
+    /* Dark Mode - Deep & Rich (Dark Warm Family) */
+    --background: 20 14% 4%;
+    /* Deep brownish black */
+    --foreground: 30 20% 95%;
+
+    --card: 20 14% 8%;
+    --card-foreground: 30 20% 95%;
+
+    --popover: 20 14% 8%;
+    --popover-foreground: 30 20% 95%;
+
+    --primary: 25 95% 53%;
+    --primary-foreground: 60 9% 98%;
+
+    --secondary: 20 14% 12%;
+    --secondary-foreground: 30 20% 95%;
+
+    --muted: 20 14% 12%;
+    --muted-foreground: 25 10% 65%;
+
+    --accent: 20 14% 12%;
+    --accent-foreground: 30 20% 95%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 60 9% 98%;
+
+    --border: 20 14% 12%;
+    --input: 20 14% 12%;
+    --ring: 25 95% 53%;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body {
+    @apply text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    padding-top: 40px;
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Light Mode Background - Bright, Sunny, Transparent feel */
+  body {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(255, 166, 0, 0.15), transparent 40%),
+      radial-gradient(circle at 100% 0%, rgba(255, 99, 71, 0.1), transparent 40%),
+      radial-gradient(circle at 50% 100%, rgba(255, 218, 185, 0.2), transparent 50%),
+      #fdfbf9;
+    /* Fallback */
+  }
+
+  /* Dark Mode Background - Deep, Glowing, Night feel */
+  .dark body {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(249, 115, 22, 0.15), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(220, 38, 38, 0.1), transparent 50%),
+      #0f0b0a;
+    /* Fallback */
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+@layer components {
+
+  /* Glassmorphism Utilities */
+  .glass {
+    @apply bg-white/70 dark:bg-black/40 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-lg;
+  }
+
+  .glass-card {
+    @apply bg-white/60 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-sm hover:shadow-md transition-all duration-300;
+  }
+
+  .glass-panel {
+    @apply bg-white/40 dark:bg-black/40 backdrop-blur-2xl border border-white/20 dark:border-white/5;
+  }
+
+  .glass-input {
+    @apply bg-white/50 dark:bg-black/20 border-white/20 dark:border-white/10 focus:bg-white/80 dark:focus:bg-black/40 backdrop-blur-sm transition-all;
+  }
+}
+
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .pizza-stage {
+    position: relative;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent 60%),
+      linear-gradient(135deg, rgba(255, 170, 43, 0.6), rgba(255, 94, 58, 0.6));
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2), inset 0 0 80px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  .pizza-core {
+    position: relative;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(255, 240, 213, 0.9) 0%, rgba(255, 176, 59, 0.4) 65%, transparent 70%),
+      linear-gradient(120deg, rgba(255, 135, 31, 0.95), rgba(179, 21, 0, 0.95));
+    box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 179, 71, 0.4);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes pizza-orbit {
+    to {
+      transform: rotate(calc(var(--start-angle) + 360deg)) translateX(var(--orbit-radius)) rotate(calc(-1 * (var(--start-angle) + 360deg)));
+    }
+  }
+
+  .pizza-particle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: clamp(1.5rem, 2vw, 2.8rem);
+    --orbit-radius: 120px;
+    transform: rotate(var(--start-angle)) translateX(var(--orbit-radius)) rotate(calc(-1 * var(--start-angle)));
+    animation: pizza-orbit 16s linear infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  @media (max-width: 768px) {
+    .pizza-particle {
+      --orbit-radius: 90px;
+    }
+  }
 }

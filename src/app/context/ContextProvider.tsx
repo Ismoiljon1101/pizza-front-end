@@ -1,7 +1,14 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { Member } from "../../lib/types/member";
-import { GlobalContext } from "../hooks/useGlobals";
+import { GlobalContext, ThemeMode } from "../hooks/useGlobals";
+
+const getInitialTheme = (): ThemeMode => {
+  if (typeof window === "undefined") return "light"
+  const stored = localStorage.getItem("theme")
+  if (stored === "light" || stored === "dark") return stored
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+}
 
 const ContextProvider: React.FC<{children: ReactNode}> = ({children}) =>{
     const cookies = new Cookies();
@@ -14,9 +21,21 @@ const ContextProvider: React.FC<{children: ReactNode}> = ({children}) =>{
     );
 
     const [orderBuilder, setOrderBuilder] = useState<Date>(new Date());
-    console.log(" === VERIFY ===")
+    const [theme, setTheme] = useState<ThemeMode>(getInitialTheme);
 
-    return (<GlobalContext.Provider value={{authMember, setAuthMember, orderBuilder, setOrderBuilder}}>
+    useEffect(() => {
+      const root = window.document.documentElement
+      if (theme === "dark") {
+        root.classList.add("dark")
+      } else {
+        root.classList.remove("dark")
+      }
+      localStorage.setItem("theme", theme)
+    }, [theme])
+
+    const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"))
+
+    return (<GlobalContext.Provider value={{authMember, setAuthMember, orderBuilder, setOrderBuilder, theme, setTheme, toggleTheme}}>
         {children}
     </GlobalContext.Provider>)
 

@@ -44,3 +44,24 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Focus Chain List for Task 1763530589916
+
+- [x] Install Tailwind CSS and dependencies
+- [x] Initialize Tailwind CSS configuration
+- [x] Configure template paths
+- [x] Add Tailwind directives to CSS
+- [x] Set up shadcn/ui
+- [x] Remove Material-UI and old CSS
+  - [x] Uninstall Material-UI packages
+  - [x] Fix compilation errors from uninstallation
+  - [x] Remove old CSS files
+- [x] Refactor components to use Tailwind and shadcn/ui
+  - [x] Refactor `HomeNavbar.tsx`
+  - [x] Add missing shadcn/ui components
+  - [x] Fix compilation errors in `HomeNavbar.tsx`
+  - [x] Fix compilation errors in `App.tsx`
+  - [x] Refactor `OtherNavbar.tsx`
+  - [x] Refactor `Basket.tsx`
+  - [x] Refactor `App.tsx` and remove old CSS imports
+- [x] Verify the application runs without errors

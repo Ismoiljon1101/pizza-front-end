@@ -1,11 +1,16 @@
 import { createContext, useContext } from "react";
 import { Member } from "../../lib/types/member";
 
+export type ThemeMode = "light" | "dark"
+
 interface GlobalInterface {
     authMember: Member | null;
     setAuthMember: (member: Member | null) => void;
     orderBuilder: Date;
     setOrderBuilder: (input: Date) => void;
+    theme: ThemeMode;
+    setTheme: (theme: ThemeMode) => void;
+    toggleTheme: () => void;
 }
 
 export const GlobalContext = createContext<GlobalInterface | undefined>( undefined);

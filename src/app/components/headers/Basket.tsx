@@ -1,174 +1,117 @@
 import React from "react";
-import { Box, Button, Stack } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Menu from "@mui/material/Menu";
-import CancelIcon from "@mui/icons-material/Cancel";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
 import { Messages, serverApi } from "../../../lib/config";
-import  DeleteForeverIcon  from "@mui/icons-material/DeleteForever";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import { useGlobals } from "../../hooks/useGlobals";
 import OrderService from "../../services/OrderService";
+import { Button } from "../ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
+import { Badge } from "../ui/badge";
+import { ShoppingCart, Trash2, X } from "lucide-react";
 
 interface BasketProps {
-  cartItems: CartItem[];
-  onAdd: (item: CartItem) => void;
+    cartItems: CartItem[];
+    onAdd: (item: CartItem) => void;
     onRemove: (item: CartItem) => void;
     onDelete: (item: CartItem) => void;
     onDeleteAll: () => void;
 }
 
 export default function Basket(props: BasketProps) {
-  const {cartItems, onAdd, onRemove, onDelete, onDeleteAll} = props;
-  const {authMember, setOrderBuilder} = useGlobals();
-  const history = useHistory();
-  const itemsPrice = cartItems.reduce((a: number, c: CartItem) => a+c.quantity*c.price, 
-  0);
+    const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
+    const { authMember, setOrderBuilder } = useGlobals();
+    const history = useHistory();
+    const itemsPrice = cartItems.reduce((a: number, c: CartItem) => a + c.quantity * c.price,
+        0);
 
-  const shippingCost = itemsPrice < 100 ? 5 : 0;
+    const shippingCost = itemsPrice < 100 ? 5 : 0;
 
-  const totalPrice = (itemsPrice + shippingCost).toFixed(1);
+    const totalPrice = (itemsPrice + shippingCost).toFixed(1);
 
+    const proceedOrderHandler = async () => {
+        try {
+            if (!authMember) throw new Error(Messages.error1);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+            const order = new OrderService();
+            await order.createOrder(cartItems);
 
-  /** HANDLERS **/
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(e.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+            onDeleteAll();
+            setOrderBuilder(new Date());
 
-  const proceedOrderHandler =  async () => {
-    try{
-      handleClose();
-      if(!authMember) throw new Error(Messages.error1);
+            //REFRESH VIA CONTEXT
+            history.push("/orders");
 
-      const order = new OrderService();
-      await order.createOrder(cartItems);
-
-      onDeleteAll();
-      setOrderBuilder(new Date());
-
-      //REFRESH VIA CONTEXT
-      history.push("/orders");
-
-    }catch(err) {
-      console.log(err);
-      sweetErrorHandling(err).then();
+        } catch (err) {
+            console.log(err);
+            sweetErrorHandling(err).then();
+        }
     }
-  }
 
-  return (
-    <Box className={"hover-line"}>
-      <IconButton
-        aria-label="cart"
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
-        <Badge badgeContent={cartItems.length} color="secondary">
-          <img src={"/icons/shopping-cart.svg"} alt="icon"/>
-        </Badge>
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        // onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <Stack className={"basket-frame"}>
-          <Box className={"all-check-box"}>
-            {cartItems.length === 0 
-            ?( <div>Cart is empty!</div>)
-            :( 
-              <Stack flexDirection={"row"}>
-                 <div> Cart Products</div>
-                  <DeleteForeverIcon 
-                  sx={{ml: "5px", cursor: "pointer"}}
-                  color={"primary"} 
-                  onClick={() => onDeleteAll()} />
-                
-              </Stack>
-            )}
-            
-          </Box>
-
-          <Box className={"orders-main-wrapper"}>
-            <Box className={"orders-wrapper"}>
-              {cartItems.map((item: CartItem) => {
-                const imagePath = `${serverApi}/${item.image}`
-
-                return (
-                  <Box className={"basket-info-box"} key={item._id}>
-                <div className={"cancel-btn"} >
-                  <CancelIcon color={"primary"} 
-                  onClick={() => onDelete(item)} />
-                </div>
-                <img src={imagePath} className={"product-img"}  alt="icon"/>
-                <span className={"product-name"}>{item.name}</span>
-                <p className={"product-price"}>${item.price} x {item.quantity}</p>
-                <Box sx={{ minWidth: 120 }}>
-                  <div className="col-2">
-                    <button onClick={() => onRemove(item)} className="remove">-</button>{" "}
-                    <button onClick={() => onAdd(item)} className="add">+</button>
-                  </div>
-                </Box>
-              </Box>
-                );
-              })}
-            </Box>
-          </Box>
-          {cartItems.length !== 0 ? (
-            <Box className={"basket-order"}>
-            <span className={"price"}>Total: ${totalPrice} ({itemsPrice} + {shippingCost})</span>
-            <Button startIcon={<ShoppingCartIcon />} variant={"contained"}
-            onClick={proceedOrderHandler}>
-              Order
-            </Button>
-          </Box>
-          ) : (
-            ""
-            )}
-          
-        </Stack>
-      </Menu>
-    </Box>
-  );
+    return (
+        <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+                <Button className="relative" variant="secondary" size="icon">
+                    <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full border border-background text-[11px]">
+                        {cartItems.length}
+                    </Badge>
+                    <ShoppingCart className="h-5 w-5" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-72 max-h-[420px] overflow-hidden p-0 sm:w-96">
+                <DropdownMenuLabel>
+                    <div className="flex justify-between items-center">
+                        <span>Cart</span>
+                        {cartItems.length > 0 && <Trash2 className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-destructive" onClick={() => onDeleteAll()} />}
+                    </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {cartItems.length === 0 ? (
+                    <div className="p-4 text-center text-muted-foreground">Cart is empty!</div>
+                ) : (
+                    <div className="p-2 max-h-80 overflow-y-auto space-y-1">
+                        {cartItems.map((item: CartItem) => {
+                            const imagePath = `${serverApi}/${item.image}`
+                            return (
+                                <div key={item._id} className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50">
+                                    <div className="flex items-center space-x-2">
+                                        <img src={imagePath} className="w-12 h-12 object-cover rounded-md" alt="icon" />
+                                        <div>
+                                            <p className="font-semibold text-sm">{item.name}</p>
+                                            <p className="text-xs text-muted-foreground">${item.price} x {item.quantity}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center space-x-1">
+                                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onRemove(item)}>−</Button>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onAdd(item)}>+</Button>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => onDelete(item)}>
+                                            <X className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )}
+                {cartItems.length > 0 && (
+                    <>
+                        <DropdownMenuSeparator />
+                        <div className="p-4 bg-muted/20">
+                            <div className="flex justify-between font-semibold">
+                                <span>Total</span>
+                                <span>${totalPrice}</span>
+                            </div>
+                            <Button className="w-full mt-4" onClick={proceedOrderHandler}>Order</Button>
+                        </div>
+                    </>
+                )}
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
 }
