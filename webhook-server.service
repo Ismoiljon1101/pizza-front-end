@@ -1,0 +1,18 @@
+[Unit]
+Description=GitHub Webhook Server for Pizza Front-End
+After=network.target
+
+[Service]
+Type=simple
+User=neo
+WorkingDirectory=/home/neo/deploy-projects/pizza-house/pizza-front-end
+Environment="WEBHOOK_PORT=9000"
+Environment="WEBHOOK_SECRET=your_secret_here"
+ExecStart=/usr/bin/node /home/neo/deploy-projects/pizza-house/pizza-front-end/webhook-server.js
+Restart=always
+RestartSec=10
+StandardOutput=append:/home/neo/deploy-projects/pizza-house/pizza-front-end/webhook.log
+StandardError=append:/home/neo/deploy-projects/pizza-house/pizza-front-end/webhook-error.log
+
+[Install]
+WantedBy=multi-user.target
