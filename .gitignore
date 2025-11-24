@@ -1,23 +1,65 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# production
-/build
-
-# misc
+# OS
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+Thumbs.db
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Secrets
+.env
+.env.*
+secrets.txt
+
+# Logs
+logs/
+*.log
+
+# Runtime
+pids/
+*.pid
+*.pid.lock
+
+# Coverage
+coverage/
+*.lcov
+
+# Tools
+.nyc_output/
+.grunt/
+bower_components/
+.lock-wscript
+
+# Build
+build/
+dist/
+out/
+.next/
+.nuxt/
+.vuepress/dist/
+.temp/
+
+# Dependencies
+node_modules/
+jspm_packages/
+web_modules/
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.rpt2_cache/
+.rts2_cache_*/
+.yarn/
+.pnp.*
+.npm
+
+# Typescript
+*.tsbuildinfo
+
+# Serverless
+.serverless/
+.dynamodb/
+
+# VSCode tests
+.vscode-test/
+
+# Packs
+*.tgz

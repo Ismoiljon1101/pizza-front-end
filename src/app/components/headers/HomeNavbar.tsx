@@ -1,93 +1,91 @@
-import { Box, Button, Container, ListItemIcon, Menu, MenuItem, Stack } from "@mui/material";
-import { NavLink } from "react-router-dom";
-import Basket from "./Basket";
-import React, { useEffect, useState } from "react";
-import { CartItem } from "../../../lib/types/search";
-import { useGlobals } from "../../hooks/useGlobals";
-import { serverApi } from "../../../lib/config";
-import { Logout } from "@mui/icons-material";
+import { useState, useEffect } from "react"
+import { NavLink, useHistory } from "react-router-dom"
+import { Button } from "../ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Sun, Moon, LogOut, Home, ShoppingBag, HelpCircle, CookingPot, UserCircle } from "lucide-react"
+import { useGlobals } from "../../hooks/useGlobals"
+import { serverApi } from "../../../lib/config"
+import { CartItem } from "../../../lib/types/search"
+import Basket from "./Basket"
 
 interface HomeNavbarProps {
-  cartItems: CartItem[];
-  onAdd: (item: CartItem) => void;
-  onRemove: (item: CartItem) => void;
-  onDelete: (item: CartItem) => void;
-  onDeleteAll: () => void;
-  setSignupOpen: (isOpen: boolean) => void;
-  setLoginOpen: (isOpen: boolean) => void;
-  handleLogoutClick: (e: React.MouseEvent<HTMLElement>) => void
-  anchorEl: HTMLElement | null
-  handleCloseLogout: () => void
+  cartItems: CartItem[]
+  onAdd: (item: CartItem) => void
+  onRemove: (item: CartItem) => void
+  onDelete: (item: CartItem) => void
+  onDeleteAll: () => void
+  setSignupOpen: (isOpen: boolean) => void
+  setLoginOpen: (isOpen: boolean) => void
   handleLogoutRequest: () => void
 }
 
-export function HomeNavbar(props: HomeNavbarProps) {
+export default function HomeNavbar(props: HomeNavbarProps) {
   const {
     cartItems,
     onAdd,
     onRemove,
     onDelete,
     onDeleteAll,
-    setLoginOpen,
     setSignupOpen,
-    handleLogoutClick,
-    anchorEl,
-    handleCloseLogout,
+    setLoginOpen,
     handleLogoutRequest,
-  } = props;
-  const { authMember } = useGlobals();
+  } = props
+  const { authMember, theme, toggleTheme } = useGlobals()
+  const history = useHistory()
 
+  const handleNavClick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
 
-  /** HANDLERS */
+  const navItems = [
+    { label: "Home", to: "/", icon: Home },
+    { label: "Products", to: "/products", icon: CookingPot },
+    { label: "Orders", to: "/orders", icon: ShoppingBag },
+    { label: "My Page", to: "/mypage", icon: UserCircle },
+    { label: "Help", to: "/help", icon: HelpCircle },
+  ]
 
   return (
-    <div className="home-navbar">
-      <Container className="navbar-container">
-        <Stack className="menu">
-          <Box>
-            <NavLink to={"/"} activeClassName="undereline">
-              <img src="/icons/burak.svg" className="brand-logo" />
-            </NavLink>
-          </Box>
-          <Stack className="links">
-            <Box className={"hover-line"}>
-              {" "}
-              <NavLink to={"/"} activeClassName="underline">
-                Home
+    <header className="fixed top-0 left-0 z-50 w-full pt-2 md:pt-4">
+      <div className="mx-auto w-full max-w-7xl px-2 md:px-4">
+        <div className="glass flex w-full items-center justify-between gap-2 md:gap-3 rounded-full px-3 py-2 md:px-6 md:py-3">
+          <NavLink to="/" className="flex items-center gap-2" onClick={handleNavClick}>
+            <img className="w-16 md:w-24 drop-shadow-sm" src="/icons/burak.svg" alt="brand logo" />
+          </NavLink>
+
+          <nav className="hidden items-center gap-1 md:flex">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                exact
+                to={item.to}
+                activeClassName="bg-primary/10 text-primary font-semibold"
+                className="rounded-full px-5 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-white/10 hover:text-foreground hover:scale-105"
+                onClick={handleNavClick}
+              >
+                {item.label}
               </NavLink>
-            </Box>
-            <Box className={"hover-line"}>
-              {" "}
-              <NavLink to={"/products"} activeClassName="underline">
-                Produts
-              </NavLink>
-            </Box>
-            <Box className={"hover-line"}>
-              {" "}
-              <NavLink to={"/help"} activeClassName="underline">
-                Help
-              </NavLink>
-            </Box>
-            <Box>
-              {authMember ? (
-                <Box className={"hover-line"}>
-                  <NavLink to={"/orders"} activeClassName="underline">
-                    Orders
-                  </NavLink>
-                </Box>
-              ) : null}
-            </Box>
-            <Box>
-              {authMember ? (
-                <Box className={"hover-line"}>
-                  {" "}
-                  <NavLink to={"/member-page"} activeClassName="underline">
-                    MyPage
-                  </NavLink>
-                </Box>
-              ) : null}
-            </Box>
-            {/* Basket */}
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-1 md:gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="flex rounded-full hover:bg-white/10"
+              onClick={toggleTheme}
+              aria-label="Toggle color theme"
+            >
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
             <Basket
               cartItems={cartItems}
               onAdd={onAdd}
@@ -96,93 +94,64 @@ export function HomeNavbar(props: HomeNavbarProps) {
               onDeleteAll={onDeleteAll}
             />
             {!authMember ? (
-              <Box>
-                <Button
-                  variant="contained"
-                  className="login-button"
-                  onClick={() => setLoginOpen(true)}
-                >
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" className="rounded-full hover:bg-white/10" onClick={() => setSignupOpen(true)}>
+                  Sign up
+                </Button>
+                <Button className="rounded-full shadow-lg shadow-primary/20" onClick={() => setLoginOpen(true)}>
                   Login
                 </Button>
-              </Box>
+              </div>
             ) : (
-              <img
-                className="user-avatar"
-                src={
-                  authMember?.memberImage
-                    ? `${serverApi}${authMember?.memberImage}`
-                    : "/icons/default-user.svg"
-                }
-                aria-haspopup={"true"}
-                onClick={handleLogoutClick}
-              />
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger className="rounded-full border-2 border-white/20 p-0.5 transition hover:border-primary">
+                  <Avatar className="h-7 w-7 md:h-9 md:w-9">
+                    <AvatarImage
+                      src={
+                        authMember?.memberImage
+                          ? `${serverApi}/${authMember?.memberImage}`
+                          : "/icons/default-user.svg"
+                      }
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="glass border-none">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-white/10" />
+                  <DropdownMenuItem onClick={handleLogoutRequest} className="focus:bg-white/10">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
-            <Menu
-              anchorEl={anchorEl}
-              id="account-menu"
-              open = {Boolean(anchorEl) ? true : false}
-              onClose={handleCloseLogout}
-              onClick={handleCloseLogout}
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&:before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{ horizontal: "right", vertical: "top" }}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Bottom Navigation - Always Visible */}
+      <div
+        className="glass fixed bottom-2 left-2 right-2 z-40 flex justify-around rounded-full border border-white/20 px-1 py-2 shadow-2xl md:hidden"
+        style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom))" }}
+      >
+        {navItems.map((item) => {
+          const Icon = item.icon || CookingPot
+          return (
+            <NavLink
+              key={item.to}
+              exact
+              to={item.to}
+              activeClassName="text-primary bg-primary/10"
+              className="flex flex-col items-center justify-center gap-0.5 rounded-full p-1.5 text-[10px] font-medium text-muted-foreground transition-all hover:text-primary min-w-[60px]"
+              onClick={handleNavClick}
             >
-              <MenuItem onClick={handleLogoutRequest}>
-                <ListItemIcon>
-                  <Logout fontSize="small" style={{ color: "blue" }} />
-                </ListItemIcon>
-                Logout
-              </MenuItem>
-            </Menu>
-          </Stack>
-        </Stack>
-        <Stack className={"header-frame"}>
-          <Stack className={"detail"}>
-            <Box className="head-main-txt">World's most delicious Cousine</Box>
-            <Box className="wel-txt">The Choice, not just a choice</Box>
-            <Box className="service-txt">24hours Service</Box>
-            <Box className="signup">
-              {!authMember ? (
-                <Button
-                  variant="contained"
-                  className="signup-button"
-                  onClick={() => setSignupOpen(true)}
-                >
-                  SIGN UP
-                </Button>
-              ) : null}
-            </Box>
-          </Stack>
-          {/* <Stack className={"logo-frame"}>
-            <div className="logo-img"></div>
-          </Stack> */}
-        </Stack>
-      </Container>
-    </div>
-  );
+              <Icon className="h-4 w-4" />
+              <span className="text-[9px]">{item.label}</span>
+            </NavLink>
+          )
+        })}
+      </div>
+    </header>
+  )
 }
